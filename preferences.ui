@@ -285,12 +285,12 @@ be the last ones.</string>
          <item>
           <widget class="QLabel" name="label_16">
            <property name="text">
-            <string>Help language</string>
+            <string>Font:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="helpLanguage"/>
+          <widget class="QPushButton" name="helpLanguage"/>
          </item>
          <item>
           <spacer name="horizontalSpacer_7">

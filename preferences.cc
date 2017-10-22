@@ -96,9 +96,6 @@ Preferences::Preferences( QWidget * parent, Config::Class & cfg_ ):
       break;
     }
 
-  // Fill help languages combobox
-
-  ui.helpLanguage->addItem( tr( "Default" ), QString() );
 
   // See which helps do we have
 
@@ -127,17 +124,6 @@ Preferences::Preferences( QWidget * parent, Config::Class & cfg_ ):
       QPair< QIcon, QString >(
         QIcon( QString( ":/flags/%1.png" ).arg( reg.toLower() ) ), lang + "_" + reg ) );
   }
-
-  for( QMap< QString, QPair< QIcon, QString > >::iterator i = sortedHelps.begin();
-       i != sortedHelps.end(); ++i )
-    ui.helpLanguage->addItem( i.value().first, i.key(), i.value().second );
-
-  for( int x = 0; x < ui.helpLanguage->count(); ++x )
-    if ( ui.helpLanguage->itemData( x ).toString() == p.helpLanguage )
-    {
-      ui.helpLanguage->setCurrentIndex( x );
-      break;
-    }
 
   ui.displayStyle->addItem( QIcon( ":/icons/programicon_old.png" ), tr( "Default" ), QString() );
   ui.displayStyle->addItem( QIcon( ":/icons/programicon.png" ), tr( "Modern" ), QString( "modern" ) );
@@ -238,6 +224,10 @@ Preferences::Preferences( QWidget * parent, Config::Class & cfg_ ):
   ui.showScanFlag->hide();
 #endif
 
+  // Font
+  connect( ui.helpLanguage, SIGNAL (released()), this, SLOT (chooseFont()));
+  //clicked
+  
   // Sound
 
   ui.pronounceOnLoadMain->setChecked( p.pronounceOnLoadMain );
@@ -331,10 +321,6 @@ Config::Preferences Preferences::getPreferences()
   p.interfaceLanguage =
     ui.interfaceLanguage->itemData(
       ui.interfaceLanguage->currentIndex() ).toString();
-
-  p.helpLanguage =
-    ui.helpLanguage->itemData(
-      ui.helpLanguage->currentIndex() ).toString();
 
   p.displayStyle =
     ui.displayStyle->itemData(
@@ -594,6 +580,23 @@ void Preferences::on_buttonBox_accepted()
 void Preferences::on_useExternalPlayer_toggled( bool enabled )
 {
   ui.audioPlaybackProgram->setEnabled( enabled );
+}
+
+void Preferences::chooseFont( )
+{
+
+	bool ok;
+	QFont font = QFontDialog::getFont(&ok, QFont("Arial", 10), this);
+	if (ok) {
+		QMessageBox msgBox;
+		msgBox.setWindowTitle(font.rawName());
+		msgBox.setText("You Clicked "+ font.toString());
+        msgBox.exec();
+	} else {
+		// the user canceled the dialog; font is set to the initial
+		// value, in this case Helvetica [Cronyx], 10
+	}
+
 }
 
 void Preferences::customProxyToggled( bool )

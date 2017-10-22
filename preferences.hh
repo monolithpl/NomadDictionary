@@ -49,6 +49,8 @@ private slots:
   void on_buttonBox_accepted();
 
   void on_useExternalPlayer_toggled( bool enabled );
+  
+  void chooseFont ();
 
   void customProxyToggled( bool );
 

@@ -22,13 +22,13 @@ BEGIN
 	BEGIN
 		BLOCK "000004b0"
 		BEGIN
-			VALUE "CompanyName", "GoldenDict"
-			VALUE "FileDescription", "GoldenDict dictionary lookup program"
+			VALUE "CompanyName", "Nomad Dictionary"
+			VALUE "FileDescription", "Nomad Dictionary"
 			VALUE "FileVersion", GOLDENDICT_VER_STR
-			VALUE "LegalCopyright", "www.goldendict.org"
-			VALUE "InternalName", "goldendict"
-			VALUE "OriginalFilename", "goldendict.exe"
-			VALUE "ProductName", "GoldenDict"
+			VALUE "LegalCopyright", "https://vocab.today/dictionary"
+			VALUE "InternalName", "NomadDictionary"
+			VALUE "OriginalFilename", "NomadDictionary.exe"
+			VALUE "ProductName", "Nomad Dictionary"
 			VALUE "ProductVersion", GOLDENDICT_VER_STR
 		END
 	END

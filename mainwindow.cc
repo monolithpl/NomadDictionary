@@ -183,25 +183,6 @@ MainWindow::MainWindow( Config::Class & cfg_ ):
   translateBoxLayout->addWidget( translateBox );
   translateBoxToolBarAction = navToolbar->addWidget( translateBoxWidget );
 
-  // scan popup
-  beforeScanPopupSeparator = navToolbar->addSeparator();
-  beforeScanPopupSeparator->setVisible( cfg.preferences.enableScanPopup );
-  navToolbar->widgetForAction( beforeScanPopupSeparator )->setObjectName( "beforeScanPopupSeparator" );
-
-  enableScanPopup = navToolbar->addAction( QIcon( ":/icons/wizard.png" ), tr( "Scan Popup" ) );
-  enableScanPopup->setCheckable( true );
-  enableScanPopup->setVisible( cfg.preferences.enableScanPopup );
-  navToolbar->widgetForAction( enableScanPopup )->setObjectName( "scanPopupButton" );
-  if ( cfg.preferences.enableScanPopup && cfg.preferences.startWithScanPopupOn )
-    enableScanPopup->setChecked( true );
-
-  connect( enableScanPopup, SIGNAL( toggled( bool ) ),
-           this, SLOT( scanEnableToggled( bool ) ) );
-
-  afterScanPopupSeparator = navToolbar->addSeparator();
-  afterScanPopupSeparator->setVisible( cfg.preferences.enableScanPopup );
-  navToolbar->widgetForAction( afterScanPopupSeparator )->setObjectName( "afterScanPopupSeparator" );
-
   // sound
   navPronounce = navToolbar->addAction( QIcon( ":/icons/playsound_full.png" ), tr( "Pronounce Word (Alt+S)" ) );
   navPronounce->setShortcut( QKeySequence( "Alt+S" ) );
@@ -210,6 +191,9 @@ MainWindow::MainWindow( Config::Class & cfg_ ):
 
   connect( navPronounce, SIGNAL( triggered() ),
            this, SLOT( pronounce() ) );
+		   
+  addToFavorites = navToolbar->addAction( QIcon( ":/icons/star.png" ), tr( "Add current tab to Favorites" ) );
+  navToolbar->widgetForAction( addToFavorites )->setObjectName( "addToFavoritesButton" );
 
   // zooming
   // named separator (to be able to hide it via CSS)
@@ -227,6 +211,8 @@ MainWindow::MainWindow( Config::Class & cfg_ ):
 
   zoomBase = navToolbar->addAction( QIcon( ":/icons/icon32_zoombase.png" ), tr( "Normal Size" ) );
   zoomBase->setShortcut( QKeySequence( "Ctrl+0" ) );
+  zoomBase->setVisible(false);
+
   navToolbar->widgetForAction( zoomBase )->setObjectName( "zoomBaseButton" );
 
   // named separator (to be able to hide it via CSS)
@@ -237,12 +223,32 @@ MainWindow::MainWindow( Config::Class & cfg_ ):
 
   navToolbar->addAction( ui.print );
   navToolbar->widgetForAction( ui.print )->setObjectName( "printButton" );
+  
+  // scan popup
+  beforeScanPopupSeparator = navToolbar->addSeparator();
+  
+  navToolbar->widgetForAction( navToolbar->addSeparator() )->setObjectName( "separatorBeforeSearchInPage" );
+  
+  navToolbar->addAction( ui.searchInPageAction );
+  navToolbar->widgetForAction( ui.searchInPageAction )->setObjectName( "searchInPageActionButton" );
+  
+  beforeScanPopupSeparator->setVisible( cfg.preferences.enableScanPopup );
+  navToolbar->widgetForAction( beforeScanPopupSeparator )->setObjectName( "beforeScanPopupSeparator" );
 
-  navToolbar->widgetForAction( navToolbar->addSeparator() )->setObjectName( "separatorBeforeAddToFavorites" );
+  enableScanPopup = navToolbar->addAction( QIcon( ":/icons/wizard.png" ), tr( "Scan Popup" ) );
+  enableScanPopup->setCheckable( true );
+  enableScanPopup->setVisible( cfg.preferences.enableScanPopup );
+  navToolbar->widgetForAction( enableScanPopup )->setObjectName( "scanPopupButton" );
+  if ( cfg.preferences.enableScanPopup && cfg.preferences.startWithScanPopupOn )
+    enableScanPopup->setChecked( true );
 
-  addToFavorites = navToolbar->addAction( QIcon( ":/icons/star.png" ), tr( "Add current tab to Favorites" ) );
-  navToolbar->widgetForAction( addToFavorites )->setObjectName( "addToFavoritesButton" );
+  connect( enableScanPopup, SIGNAL( toggled( bool ) ),
+           this, SLOT( scanEnableToggled( bool ) ) );
 
+  afterScanPopupSeparator = navToolbar->addSeparator();
+  afterScanPopupSeparator->setVisible( cfg.preferences.enableScanPopup );
+  navToolbar->widgetForAction( afterScanPopupSeparator )->setObjectName( "afterScanPopupSeparator" );
+  
   connect( addToFavorites, SIGNAL( triggered() ), this, SLOT( addCurrentTabToFavorites() ) );
   connect( ui.actionAddToFavorites, SIGNAL( triggered() ), this, SLOT( addCurrentTabToFavorites() ) );
 
@@ -752,7 +758,8 @@ MainWindow::MainWindow( Config::Class & cfg_ ):
   // After we have dictionaries and groups, we can populate history
 //  historyChanged();
 
-  setWindowTitle( "GoldenDict" );
+  setWindowTitle( "Nomad Dictionary" );
+
 
   blockUpdateWindowTitle = true;
   addNewTab();
@@ -1120,7 +1127,7 @@ void MainWindow::updateTrayIcon()
         ":/icons/programicon_scan.png" :
         ":/icons/programicon_old.png" ) );
 
-    trayIcon->setToolTip( "GoldenDict" );
+    trayIcon->setToolTip( "Nomad Dictionary" );
   }
 
   // The 'Close to tray' action is associated with the tray icon, so we hide
@@ -1731,7 +1738,7 @@ void MainWindow::updateWindowTitle()
         str.append( (ushort)0x202C ); // PDF, POP DIRECTIONAL FORMATTING
       }
       if( !blockUpdateWindowTitle )
-        setWindowTitle( tr( "%1 - %2" ).arg( str, "GoldenDict" ) );
+        setWindowTitle( tr( "%1 - %2" ).arg( str, "Nomad Dictionary" ) );
       blockUpdateWindowTitle = false;
     }
   }
@@ -2867,7 +2874,7 @@ void MainWindow::installHotKeys()
     }
     catch( HotkeyWrapper::exInit & )
     {
-      QMessageBox::critical( this, "GoldenDict",
+      QMessageBox::critical( this, "Nomad Dictionary",
         tr( "Failed to initialize hotkeys monitoring mechanism.<br>"
             "Make sure your XServer has RECORD extension turned on." ) );
 
@@ -3010,7 +3017,7 @@ void MainWindow::latestReleaseReplyReady()
   {
     QMessageBox msg( QMessageBox::Information,
                      tr( "New Release Available" ),
-                     tr( "Version <b>%1</b> of GoldenDict is now available for download.<br>"
+                     tr( "Version <b>%1</b> of Nomad Dictionary is now available for download.<br>"
                          "Click <b>Download</b> to get to the download page." ).arg( latestVersion ),
                      QMessageBox::NoButton,
                      this );
@@ -3087,7 +3094,7 @@ void MainWindow::showMainWindow()
 
 void MainWindow::visitHomepage()
 {
-  QDesktopServices::openUrl( QUrl( "http://goldendict.org/" ) );
+  QDesktopServices::openUrl( QUrl( "https://vocab.today/dictionary" ) );
 }
 
 void MainWindow::openConfigFolder()
@@ -3097,7 +3104,7 @@ void MainWindow::openConfigFolder()
 
 void MainWindow::visitForum()
 {
-  QDesktopServices::openUrl( QUrl( "http://goldendict.org/forum/" ) );
+  QDesktopServices::openUrl( QUrl( "https://vocab.today/dictionary" ) );
 }
 
 void MainWindow::showAbout()

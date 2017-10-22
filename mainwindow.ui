@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">GoldenDict</string>
+   <string notr="true">Nomad Dictionary</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -92,7 +92,7 @@
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
-     <string>&amp;Edit</string>
+     <string>&amp;Settings</string>
     </property>
     <addaction name="dictionaries"/>
     <addaction name="preferences"/>
@@ -101,12 +101,7 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="showReference"/>
-    <addaction name="separator"/>
     <addaction name="visitHomepage"/>
-    <addaction name="visitForum"/>
-    <addaction name="separator"/>
-    <addaction name="openConfigFolder"/>
     <addaction name="separator"/>
     <addaction name="about"/>
    </widget>
@@ -151,10 +146,10 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
-   <addaction name="menu_Edit"/>
    <addaction name="menuSearch"/>
    <addaction name="menuHistory"/>
    <addaction name="menuFavorites"/>
+    <addaction name="menu_Edit"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QDockWidget" name="searchPane">
@@ -411,7 +406,7 @@
     <string>&amp;About</string>
    </property>
    <property name="toolTip">
-    <string>About GoldenDict</string>
+    <string>About Nomad Dictionary</string>
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
@@ -437,6 +432,9 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionCloseToTray">
@@ -512,6 +510,9 @@
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="clearHistory">
    <property name="text">
@@ -519,6 +520,9 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="newTab">
@@ -548,6 +552,10 @@
    </property>
   </action>
   <action name="showHideHistory">
+  <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/history.png</normaloff>:/icons/history.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Show</string>
    </property>
@@ -572,6 +580,9 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="alwaysOnTop">
@@ -601,6 +612,10 @@
    </property>
   </action>
   <action name="searchInPageAction">
+    <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/find.png</normaloff>:/icons/find.png</iconset>
+   </property>
    <property name="text">
     <string>Search in page</string>
    </property>
@@ -627,13 +642,20 @@
   </action>
   <action name="showReference">
    <property name="text">
-    <string>GoldenDict reference</string>
+    <string>Nomad Dictionary reference</string>
    </property>
    <property name="shortcut">
     <string>F1</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="showHideFavorites">
+  <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/star.png</normaloff>:/icons/star.png</iconset>
+   </property>
    <property name="text">
     <string>Show</string>
    </property>
@@ -645,10 +667,16 @@
    <property name="text">
     <string>Export</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="importFavorites">
    <property name="text">
     <string>Import</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
   <action name="actionAddToFavorites">
@@ -664,7 +692,7 @@
   </action>
   <action name="ExportFavoritesToList">
    <property name="text">
-    <string>Export to list</string>
+    <string>Export</string>
    </property>
   </action>
  </widget>

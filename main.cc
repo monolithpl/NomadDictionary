@@ -247,7 +247,7 @@ int main( int argc, char ** argv )
     errorText += "\n" + QString( "This information is located in file %1, "
                                  "which will be removed once you close this dialog.").arg( errFile.fileName() );
 
-    QMessageBox::critical( 0, "GoldenDict has crashed", errorText );
+    QMessageBox::critical( 0, "Nomad Dictionary has crashed", errorText );
 
     errFile.remove();
 
@@ -305,8 +305,8 @@ int main( int argc, char ** argv )
     return 0; // Another instance is running
   }
 
-  app.setApplicationName( "GoldenDict" );
-  app.setOrganizationDomain( "http://goldendict.org/" );
+  app.setApplicationName( "Nomad Dictionary" );
+  app.setOrganizationDomain( "https://vocab.today/dictionary" );
 #if QT_VERSION >= 0x040600
   app.setStyle(new GdAppStyle);
 #endif
@@ -414,6 +414,10 @@ int main( int argc, char ** argv )
   QWebSecurityOrigin::addLocalScheme( "gdlookup" );
 #endif
 
+  QSplashScreen *splash=new QSplashScreen;
+  splash->setPixmap(QPixmap(":/icons/dictionary.jpg"));
+  splash->show();
+
   MainWindow m( cfg );
 
   app.addDataCommiter( m );
@@ -429,6 +433,8 @@ int main( int argc, char ** argv )
 
   if( gdcl.needTranslateWord() )
     m.wordReceived( gdcl.wordToTranslate() );
+
+  splash->finish(&m);
 
   int r = app.exec();
 

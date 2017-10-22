@@ -298,17 +298,15 @@ sptr< Dictionary::DataRequest > ArticleMaker::makeDefinitionFor(
     if ( inWord == tr( "Welcome!" ) )
     {
       result += tr(
-"<h3 align=\"center\">Welcome to <b>GoldenDict</b>!</h3>"
-"<p>To start working with the program, first visit <b>Edit|Dictionaries</b> to add some directory paths where to search "
-"for the dictionary files, set up various Wikipedia sites or other sources, adjust dictionary order or create dictionary groups."
-"<p>And then you're ready to look up your words! You can do that in this window "
-"by using a pane to the left, or you can <a href=\"Working with popup\">look up words from other active applications</a>. "
-"<p>To customize program, check out the available preferences at <b>Edit|Preferences</b>. "
-"All settings there have tooltips, be sure to read them if you are in doubt about anything."
-"<p>Should you need further help, have any questions, "
-"suggestions or just wonder what the others think, you are welcome at the program's <a href=\"http://goldendict.org/forum/\">forum</a>."
-"<p>Check program's <a href=\"http://goldendict.org/\">website</a> for the updates. "
-"<p>(c) 2008-2013 Konstantin Isakov. Licensed under GPLv3 or later."
+"<h3 align=\"center\"><b>Nomad Dictionary</b></h3>"
+"<p>You're ready to look up your words! You can do that in the box above."
+"<p>You can also <a href=\"Working with popup\">look up words from other active applications</a>. "
+"<p>To customize:"
+"<ul><li>appearance: see the available options under the <b>View</b> menu.</li>"
+"<li>dictionaries: under the <b>Settings</b> menu, choose <b>Dictionaries</b>.</li>"
+"<li>other settings: check out the available preferences in the <b>Settings | Preferences</b> menu.</li></ul>"
+"<p>Check program's <a href=\"https://vocab.today/dictionary\">website</a> for updates. "
+"<p>no (c) 2015-2017 Wiktor Jakubczyc"
 
         ).toUtf8().data();
     }
@@ -317,9 +315,7 @@ sptr< Dictionary::DataRequest > ArticleMaker::makeDefinitionFor(
     {
       result += ( tr( "<h3 align=\"center\">Working with the popup</h3>"
 
-"To look up words from other active applications, you would need to first activate the <i>\"Scan popup functionality\"</i> in <b>Preferences</b>, "
-"and then enable it at any time either by triggering the 'Popup' icon above, or "
-"by clicking the tray icon down below with your right mouse button and choosing so in the menu you've popped. " ) +
+"To look up words from other active applications, enable popup lookups by clicking the <img src='qrc:/icons/wizard.png'> button above." ) +
 
 #ifdef Q_OS_WIN32
   tr( "Then just stop the cursor over the word you want to look up in another application, "

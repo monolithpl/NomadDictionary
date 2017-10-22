@@ -41,9 +41,9 @@ EditDictionaries::EditDictionaries( QWidget * parent, Config::Class & cfg_,
 
   ui.tabs->clear();
 
-  ui.tabs->addTab( &sources, QIcon(":/icons/reload.png"), tr( "&Sources" ) );
   ui.tabs->addTab( orderAndProps.get(), QIcon(":/icons/book.png"), tr( "&Dictionaries" ) );
   ui.tabs->addTab( groups.get(), QIcon(":/icons/bookcase.png"), tr( "&Groups" ) );
+  ui.tabs->addTab( &sources, QIcon(":/icons/reload.png"), tr( "&Sources" ) );
 
   connect( ui.buttons, SIGNAL( clicked( QAbstractButton * ) ),
            this, SLOT( buttonBoxClicked( QAbstractButton * ) ) );

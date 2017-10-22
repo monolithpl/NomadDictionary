@@ -10,7 +10,7 @@ body
   margin-left:  2px;
   margin-bottom: 3px;
   background: white;
-  font-family: Tahoma, Verdana, "Lucida Sans Unicode", "Segoe UI", "Palatino Linotype", "Arial Unicode MS", sans-serif;
+  font-family: "Lucida Sans Unicode", Tahoma, Verdana, "Segoe UI", "Palatino Linotype", "Arial Unicode MS", sans-serif;
 }
 
 a
@@ -172,10 +172,6 @@ a:hover
 }
 
 ::selection {
-  background:#cc0000;
+  background:#9175c3;
   color:#fff;
-}
-
-code::selection {
-  background: #333333;
 }

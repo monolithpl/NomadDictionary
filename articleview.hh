@@ -32,7 +32,7 @@ class ArticleView: public QFrame
 
   QAction pasteAction, articleUpAction, articleDownAction,
           goBackAction, goForwardAction, selectCurrentArticleAction,
-          copyAsTextAction, inspectAction;
+          copyAsTextAction;
   QAction & openSearchAction;
   bool searchIsOpened;
   bool expandOptionalParts;
@@ -289,9 +289,6 @@ private slots:
 
   /// Copy current selection as plain text
   void copyAsText();
-
-  /// Inspect element
-  void inspect();
 
 private:
 

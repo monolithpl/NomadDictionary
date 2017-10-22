@@ -1,6 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>version.txt</file>
+		<file>icons/dictionary.jpg</file>
+		<file>icons/find.png</file>
+		<file>icons/history.png</file>
         <file>icons/print.png</file>
         <file>icons/arrow.png</file>
         <file>icons/prefix.png</file>

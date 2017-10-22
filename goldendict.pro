@@ -557,42 +557,6 @@ CONFIG( old_hunspell ) {
 
 RESOURCES += resources.qrc \
     flags.qrc
-TRANSLATIONS += locale/ru_RU.ts \
-    locale/zh_CN.ts \
-    locale/cs_CZ.ts \
-    locale/de_DE.ts \
-    locale/el_GR.ts \
-    locale/bg_BG.ts \
-    locale/ar_SA.ts \
-    locale/lt_LT.ts \
-    locale/uk_UA.ts \
-    locale/vi_VN.ts \
-    locale/it_IT.ts \
-    locale/pl_PL.ts \
-    locale/ja_JP.ts \
-    locale/zh_TW.ts \
-    locale/sq_AL.ts \
-    locale/pt_BR.ts \
-    locale/es_AR.ts \
-    locale/es_BO.ts \
-    locale/es_ES.ts \
-    locale/sk_SK.ts \
-    locale/tr_TR.ts \
-    locale/qu_WI.ts \
-    locale/tg_TJ.ts \
-    locale/ay_WI.ts \
-    locale/be_BY.ts \
-    locale/be_BY@latin.ts \
-    locale/fr_FR.ts \
-    locale/ko_KR.ts \
-    locale/nl_NL.ts \
-    locale/sr_SR.ts \
-    locale/sv_SE.ts \
-    locale/tk_TM.ts \
-    locale/fa_IR.ts \
-    locale/mk_MK.ts \
-    locale/eo_EO.ts \
-    locale/fi_FI.ts
 
 # Build version file
 !isEmpty( hasGit ) {

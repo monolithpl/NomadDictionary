@@ -129,7 +129,6 @@ ArticleView::ArticleView( QWidget * parent, ArticleNetworkAccessManager & nm,
   goForwardAction( this ),
   selectCurrentArticleAction( this ),
   copyAsTextAction( this ),
-  inspectAction( this ),
   openSearchAction( openSearchAction_ ),
   searchIsOpened( false ),
   dictionaryBarToggled( dictionaryBarToggled_ ),
@@ -216,11 +215,6 @@ ArticleView::ArticleView( QWidget * parent, ArticleNetworkAccessManager & nm,
   ui.definition->addAction( &copyAsTextAction );
   connect( &copyAsTextAction, SIGNAL( triggered() ),
            this, SLOT( copyAsText() ) );
-
-  inspectAction.setShortcut( QKeySequence( Qt::Key_F12 ) );
-  inspectAction.setText( tr( "Inspect" ) );
-  ui.definition->addAction( &inspectAction );
-  connect( &inspectAction, SIGNAL( triggered() ), this, SLOT( inspect() ) );
 
   ui.definition->installEventFilter( this );
   ui.searchFrame->installEventFilter( this );
@@ -1284,7 +1278,7 @@ void ArticleView::openLink( QUrl const & url, QUrl const & ref,
 
     if ( resourceDownloadRequests.empty() ) // No requests were queued
     {
-      QMessageBox::critical( this, "GoldenDict", tr( "The referenced resource doesn't exist." ) );
+      QMessageBox::critical( this, "GoldenDict", tr( "Missing dictionary file." ) );
       return;
     }
     else
@@ -1324,7 +1318,7 @@ void ArticleView::openLink( QUrl const & url, QUrl const & ref,
 
     // Still here? No such program exists.
     QMessageBox::critical( this, "GoldenDict",
-                           tr( "The referenced audio program doesn't exist." ) );
+                           tr( "Missing audio program." ) );
   }
   else
   if ( url.scheme() == "gdtts" )
@@ -1441,7 +1435,7 @@ ResourceToSaveHandler * ArticleView::saveResource( const QUrl & url, const QUrl 
   if ( handler->isEmpty() ) // No requests were queued
   {
     emit statusBarMessage(
-          tr( "ERROR: %1" ).arg( tr( "The referenced resource doesn't exist." ) ),
+          tr( "ERROR: %1" ).arg( tr( "Missing dictionary file." ) ),
           10000, QPixmap( ":/icons/error.png" ) );
   }
 
@@ -1728,53 +1722,7 @@ void ArticleView::contextMenuRequested( QPoint const & pos )
   // Add table of contents
   QStringList ids = getArticlesList();
 
-  if ( !menu.isEmpty() && ids.size() )
-    menu.addSeparator();
-
-  unsigned refsAdded = 0;
-  bool maxDictionaryRefsReached = false;
-
-  for( QStringList::const_iterator i = ids.constBegin(); i != ids.constEnd();
-       ++i, ++refsAdded )
-  {
-    // Find this dictionary
-
-    for( unsigned x = allDictionaries.size(); x--; )
-    {
-      if ( allDictionaries[ x ]->getId() == i->toUtf8().data() )
-      {
-        QAction * action = 0;
-        if ( refsAdded == cfg.preferences.maxDictionaryRefsInContextMenu )
-        {
-          // Enough! Or the menu would become too large.
-          maxDictionaryRefsAction = new QAction( ".........", &menu );
-          action = maxDictionaryRefsAction;
-          maxDictionaryRefsReached = true;
-        }
-        else
-        {
-          action = new QAction(
-                  allDictionaries[ x ]->getIcon(),
-                  QString::fromUtf8( allDictionaries[ x ]->getName().c_str() ),
-                  &menu );
-          // Force icons in menu on all platfroms,
-          // since without them it will be much harder
-          // to find things.
-          action->setIconVisibleInMenu( true );
-        }
-        menu.addAction( action );
-
-        tableOfContents[ action ] = *i;
-
-        break;
-      }
-    }
-    if( maxDictionaryRefsReached )
-      break;
-  }
-
-  menu.addSeparator();
-  menu.addAction( &inspectAction );
+  
 
   if ( !menu.isEmpty() )
   {
@@ -1980,7 +1928,7 @@ void ArticleView::resourceDownloadFinished()
   if ( resourceDownloadRequests.empty() )
   {
     emit statusBarMessage(
-          tr( "WARNING: %1" ).arg( tr( "The referenced resource failed to download." ) ),
+          tr( "WARNING: %1" ).arg( tr( "Missing dictionary file." ) ),
           10000, QPixmap( ":/icons/error.png" ) );
   }
 }
@@ -2195,7 +2143,7 @@ void ArticleView::doubleClicked( QPoint pos )
       }
       if ( resourceDownloadRequests.empty() ) // No requests were queued
       {
-        gdWarning( "The referenced resource \"%s\" doesn't exist\n", imageUrl.toString().toUtf8().data() ) ;
+        gdWarning( "Missing file: \"%s\"\n", imageUrl.toString().toUtf8().data() ) ;
         return;
       }
       else
@@ -2387,11 +2335,6 @@ void ArticleView::copyAsText()
   QString text = ui.definition->selectedText();
   if( !text.isEmpty() )
     QApplication::clipboard()->setText( text );
-}
-
-void ArticleView::inspect()
-{
-  ui.definition->triggerPageAction( QWebPage::InspectElement );
 }
 
 void ArticleView::highlightFTSResults()
@@ -2873,7 +2816,7 @@ void ResourceToSaveHandler::downloadFinished()
     if( !alreadyDone )
     {
       emit statusBarMessage(
-            tr( "WARNING: %1" ).arg( tr( "The referenced resource failed to download." ) ),
+            tr( "WARNING: %1" ).arg( tr( "Missing dictionary file." ) ),
             10000, QPixmap( ":/icons/error.png" ) );
     }
     emit done();
