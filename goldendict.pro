@@ -63,9 +63,6 @@ win32 {
         DEFINES += GD_NO_MANIFEST
         # QMAKE_CXXFLAGS_RELEASE += /GL # slows down the linking significantly
         LIBS += -lshell32 -luser32 -lsapi -lole32
-        Debug: LIBS+= -lhunspelld
-        Release: LIBS+= -lhunspell
-        HUNSPELL_LIB = hunspell
     } else {
         CONFIG(gcc48) {
             x64 {
@@ -79,12 +76,6 @@ win32 {
             LIBS += -L$${PWD}/winlibs/lib
         }
         !x64:QMAKE_LFLAGS += -Wl,--large-address-aware
-
-        isEmpty(HUNSPELL_LIB) {
-          LIBS += -lhunspell-1.6.1
-        } else {
-          LIBS += -l$$HUNSPELL_LIB
-        }
     }
 
     LIBS += -liconv \
@@ -141,8 +132,7 @@ unix:!mac {
     CONFIG += link_pkgconfig
     PKGCONFIG += vorbisfile \
         vorbis \
-        ogg \
-        hunspell
+        ogg
     isEmpty(DISABLE_INTERNAL_PLAYER) {
         PKGCONFIG += ao \
             libavutil \
@@ -191,7 +181,6 @@ mac {
         -lvorbisfile \
         -lvorbis \
         -logg \
-        -lhunspell-1.6.1 \
         -llzo2
     isEmpty(DISABLE_INTERNAL_PLAYER) {
         LIBS += -lao \
@@ -273,7 +262,6 @@ HEADERS += folding.hh \
     mutex.hh \
     mediawiki.hh \
     sounddir.hh \
-    hunspell.hh \
     dictdfiles.hh \
     audiolink.hh \
     wstring.hh \
@@ -403,7 +391,6 @@ SOURCES += folding.cc \
     mutex.cc \
     mediawiki.cc \
     sounddir.cc \
-    hunspell.cc \
     dictdfiles.cc \
     audiolink.cc \
     wstring.cc \
@@ -549,10 +536,6 @@ CONFIG( chinese_conversion_support ) {
       LIBS += -lopencc
     }
   }
-}
-
-CONFIG( old_hunspell ) {
-  DEFINES += OLD_HUNSPELL_INTERFACE
 }
 
 RESOURCES += resources.qrc \

@@ -388,7 +388,6 @@ int main( int argc, char ** argv )
     cfg.paths.clear();
     cfg.paths.push_back( Config::Path( Config::getPortableVersionDictionaryDir(), true ) );
     cfg.soundDirs.clear();
-    cfg.hunspell.dictionariesPath = Config::getPortableVersionMorphoDir();
   }
 
   // Reload translations for user selected locale is nesessary

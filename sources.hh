@@ -6,7 +6,6 @@
 
 #include "ui_sources.h"
 #include "config.hh"
-#include "hunspell.hh"
 #include <QAbstractItemModel>
 #include <QComboBox>
 #include <QItemDelegate>
@@ -217,36 +216,6 @@ private:
   Config::SoundDirs soundDirs;
 };
 
-/// A model to be projected into the hunspell dictionaries view, according to Qt's MVC model
-class HunspellDictsModel: public QAbstractItemModel
-{
-  Q_OBJECT
-
-public:
-
-  HunspellDictsModel( QWidget * parent, Config::Hunspell const & );
-
-  void changePath( QString const & newPath );
-
-  /// Returns the dictionaries currently enabled
-  Config::Hunspell::Dictionaries const & getEnabledDictionaries() const
-  { return enabledDictionaries; }
-
-  QModelIndex index( int row, int column, QModelIndex const & parent ) const;
-  QModelIndex parent( QModelIndex const & parent ) const;
-  Qt::ItemFlags flags( QModelIndex const & index ) const;
-  int rowCount( QModelIndex const & parent ) const;
-  int columnCount( QModelIndex const & parent ) const;
-  QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
-  QVariant data( QModelIndex const & index, int role ) const;
-  bool setData( QModelIndex const & index, const QVariant & value, int role );
-
-private:
-
-  Config::Hunspell::Dictionaries enabledDictionaries;
-  std::vector< HunspellMorpho::DataFiles > dataFiles;
-};
-
 
 class Sources: public QWidget
 {
@@ -274,8 +243,6 @@ public:
   { return programsModel.getCurrentPrograms(); }
 
   Config::VoiceEngines getVoiceEngines() const;
-
-  Config::Hunspell getHunspell() const;
 
   Config::Transliteration getTransliteration() const;
 
@@ -306,11 +273,9 @@ private:
   ProgramsModel programsModel;
   PathsModel pathsModel;
   SoundDirsModel soundDirsModel;
-  HunspellDictsModel hunspellDictsModel;
 
   void fitPathsColumns();
   void fitSoundDirsColumns();
-  void fitHunspellDictsColumns();
 
 private slots:
 
@@ -319,8 +284,6 @@ private slots:
 
   void on_addSoundDir_clicked();
   void on_removeSoundDir_clicked();
-
-  void on_changeHunspellPath_clicked();
 
   void on_addMediaWiki_clicked();
   void on_removeMediaWiki_clicked();

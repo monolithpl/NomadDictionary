@@ -335,23 +335,6 @@ struct DictServer
 /// All the DictServers
 typedef QVector< DictServer > DictServers;
 
-/// Hunspell configuration
-struct Hunspell
-{
-  QString dictionariesPath;
-
-  typedef QVector< QString > Dictionaries;
-
-  Dictionaries enabledDictionaries;
-
-  bool operator == ( Hunspell const & other ) const
-  { return dictionariesPath == other.dictionariesPath &&
-    enabledDictionaries == other.enabledDictionaries; }
-
-  bool operator != ( Hunspell const & other ) const
-  { return ! operator == ( other ); }
-};
-
 /// All the MediaWikis
 typedef QVector< MediaWiki > MediaWikis;
 
@@ -555,7 +538,6 @@ struct Class
   MediaWikis mediawikis;
   WebSites webSites;
   DictServers dictServers;
-  Hunspell hunspell;
   Transliteration transliteration;
   Forvo forvo;
   Programs programs;

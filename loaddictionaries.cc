@@ -9,7 +9,6 @@
 #include "dsl.hh"
 #include "mediawiki.hh"
 #include "sounddir.hh"
-#include "hunspell.hh"
 #include "dictdfiles.hh"
 #include "romaji.hh"
 #include "russiantranslit.hh"
@@ -51,7 +50,7 @@ using std::string;
 using std::vector;
 
 LoadDictionaries::LoadDictionaries( Config::Class const & cfg ):
-  paths( cfg.paths ), soundDirs( cfg.soundDirs ), hunspell( cfg.hunspell ),
+  paths( cfg.paths ), soundDirs( cfg.soundDirs ),
   transliteration( cfg.transliteration ),
   exceptionText( "Load did not finish" ), // Will be cleared upon success
   maxPictureWidth( cfg.maxPictureWidth ),
@@ -86,15 +85,6 @@ void LoadDictionaries::run()
 
       dictionaries.insert( dictionaries.end(), soundDirDictionaries.begin(),
                            soundDirDictionaries.end() );
-    }
-
-    // Make hunspells
-    {
-      vector< sptr< Dictionary::Class > > hunspellDictionaries =
-        HunspellMorpho::makeDictionaries( hunspell );
-
-      dictionaries.insert( dictionaries.end(), hunspellDictionaries.begin(),
-                           hunspellDictionaries.end() );
     }
 
     exceptionText.clear();

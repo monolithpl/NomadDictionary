@@ -19,7 +19,6 @@ class LoadDictionaries: public QThread, public Dictionary::Initializing
   QStringList nameFilters;
   Config::Paths const & paths;
   Config::SoundDirs const & soundDirs;
-  Config::Hunspell const & hunspell;
   Config::Transliteration const & transliteration;
   std::vector< sptr< Dictionary::Class > > dictionaries;
   std::string exceptionText;

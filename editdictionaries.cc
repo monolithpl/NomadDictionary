@@ -174,7 +174,6 @@ bool EditDictionaries::isSourcesChanged() const
 {
   return sources.getPaths() != cfg.paths ||
          sources.getSoundDirs() != cfg.soundDirs ||
-         sources.getHunspell() != cfg.hunspell ||
          sources.getTransliteration() != cfg.transliteration ||
          sources.getForvo() != cfg.forvo ||
          sources.getMediaWikis() != cfg.mediawikis ||
@@ -194,7 +193,6 @@ void EditDictionaries::acceptChangedSources( bool rebuildGroups )
 
   cfg.paths = sources.getPaths();
   cfg.soundDirs = sources.getSoundDirs();
-  cfg.hunspell = sources.getHunspell();
   cfg.transliteration = sources.getTransliteration();
   cfg.forvo = sources.getForvo();
   cfg.mediawikis = sources.getMediaWikis();

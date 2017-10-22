@@ -348,9 +348,6 @@ Class load() throw( exError )
     if ( QDir( "/usr/share/WyabdcRealPeopleTTS" ).exists() )
       c.soundDirs.push_back( SoundDir( "/usr/share/WyabdcRealPeopleTTS", "WyabdcRealPeopleTTS" ) );
 
-    if ( QDir( "/usr/share/myspell/dicts" ).exists() )
-      c.hunspell.dictionariesPath = "/usr/share/myspell/dicts";
-
     #endif
 
     #ifdef Q_OS_WIN32
@@ -391,8 +388,6 @@ Class load() throw( exError )
 
     QString possibleMorphologyPath = getProgramDataDir() + "/content/morphology";
 
-    if ( QDir( possibleMorphologyPath ).exists() )
-      c.hunspell.dictionariesPath = possibleMorphologyPath;
 
     c.mediawikis = makeDefaultMediaWikis( true );
     c.webSites = makeDefaultWebSites();
@@ -503,18 +498,6 @@ Class load() throw( exError )
 
       c.groups.push_back( loadGroup( grp, &c.groups.nextId ) );
     }
-  }
-
-  QDomNode hunspell = root.namedItem( "hunspell" );
-
-  if ( !hunspell.isNull() )
-  {
-    c.hunspell.dictionariesPath = hunspell.toElement().attribute( "dictionariesPath" );
-
-    QDomNodeList nl = hunspell.toElement().elementsByTagName( "enabled" );
-
-    for( Qt4x5::Dom::size_type x = 0; x < nl.length(); ++x )
-      c.hunspell.enabledDictionaries.push_back( nl.item( x ).toElement().text() );
   }
 
   QDomNode transliteration = root.namedItem( "transliteration" );
@@ -1206,23 +1189,6 @@ void save( Class const & c ) throw( exError )
       groups.appendChild( group );
 
       saveGroup( *i, group );
-    }
-  }
-
-  {
-    QDomElement hunspell = dd.createElement( "hunspell" );
-    QDomAttr path = dd.createAttribute( "dictionariesPath" );
-    path.setValue( c.hunspell.dictionariesPath );
-    hunspell.setAttributeNode( path );
-    root.appendChild( hunspell );
-
-    for( int x = 0; x < c.hunspell.enabledDictionaries.size(); ++x )
-    {
-      QDomElement en = dd.createElement( "enabled" );
-      QDomText value = dd.createTextNode( c.hunspell.enabledDictionaries.at( x ) );
-
-      en.appendChild( value );
-      hunspell.appendChild( en );
     }
   }
 

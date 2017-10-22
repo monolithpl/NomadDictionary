@@ -27,12 +27,10 @@ Sources::Sources( QWidget * parent, Config::Class const & cfg):
   dictServersModel( this, cfg.dictServers ),
   programsModel( this, cfg.programs ),
   pathsModel( this, cfg.paths ),
-  soundDirsModel( this, cfg.soundDirs ),
-  hunspellDictsModel( this, cfg.hunspell )
+  soundDirsModel( this, cfg.soundDirs )
 {
   ui.setupUi( this );
 
-  Config::Hunspell const & hunspell = cfg.hunspell;
   Config::Transliteration const & trs = cfg.transliteration;
   Config::Forvo const & forvo = cfg.forvo;
 
@@ -91,12 +89,6 @@ Sources::Sources( QWidget * parent, Config::Class const & cfg):
 
   fitSoundDirsColumns();
 
-  ui.hunspellPath->setText( hunspell.dictionariesPath );
-  ui.hunspellDictionaries->setTabKeyNavigation( true );
-  ui.hunspellDictionaries->setModel( &hunspellDictsModel );
-
-  fitHunspellDictsColumns();
-
   ui.enableRussianTransliteration->setChecked( trs.enableRussianTransliteration );
   ui.enableGermanTransliteration->setChecked( trs.enableGermanTransliteration );
   ui.enableGreekTransliteration->setChecked( trs.enableGreekTransliteration );
@@ -144,11 +136,6 @@ Sources::Sources( QWidget * parent, Config::Class const & cfg):
       ui.addSoundDir->setEnabled( false );
       ui.removeSoundDir->setEnabled( false );
     }
-
-    // Morpho
-
-    ui.hunspellPath->setEnabled( false );
-    ui.changeHunspellPath->setEnabled( false );
   }
 }
 
@@ -163,12 +150,6 @@ void Sources::fitSoundDirsColumns()
   ui.soundDirs->resizeColumnToContents( 0 );
   ui.soundDirs->resizeColumnToContents( 1 );
   ui.soundDirs->resizeColumnToContents( 2 );
-}
-
-void Sources::fitHunspellDictsColumns()
-{
-  ui.hunspellDictionaries->resizeColumnToContents( 0 );
-  ui.hunspellDictionaries->resizeColumnToContents( 1 );
 }
 
 void Sources::on_addPath_clicked()
@@ -222,19 +203,6 @@ void Sources::on_removeSoundDir_clicked()
   {
     soundDirsModel.removeSoundDir( current.row() );
     fitSoundDirsColumns();
-  }
-}
-
-void Sources::on_changeHunspellPath_clicked()
-{
-  QString dir =
-    QFileDialog::getExistingDirectory( this, tr( "Choose a directory" ) );
-
-  if ( !dir.isEmpty() )
-  {
-    ui.hunspellPath->setText( dir );
-    hunspellDictsModel.changePath( dir );
-    fitHunspellDictsColumns();
   }
 }
 
@@ -345,16 +313,6 @@ Config::VoiceEngines Sources::getVoiceEngines() const
 #endif
 }
 
-Config::Hunspell Sources::getHunspell() const
-{
-  Config::Hunspell h;
-
-  h.dictionariesPath = ui.hunspellPath->text();
-  h.enabledDictionaries = hunspellDictsModel.getEnabledDictionaries();
-
-  return h;
-}
-
 Config::Transliteration Sources::getTransliteration() const
 {
   Config::Transliteration tr;
@@ -406,8 +364,6 @@ void MediaWikisModel::addNewWiki()
   Config::MediaWiki w;
 
   w.enabled = false;
-
-  w.id = Dictionary::generateRandomDictionaryId();
 
   w.url = "http://";
 
@@ -563,8 +519,6 @@ void WebSitesModel::addNewSite()
   Config::WebSite w;
 
   w.enabled = false;
-
-  w.id = Dictionary::generateRandomDictionaryId();
 
   w.url = "http://";
 
@@ -751,8 +705,6 @@ void DictServersModel::addNewServer()
 
   d.enabled = false;
 
-  d.id = Dictionary::generateRandomDictionaryId();
-
   d.url = "dict://";
 
   beginInsertRows( QModelIndex(), dictServers.size(), dictServers.size() );
@@ -928,8 +880,6 @@ void ProgramsModel::addNewProgram()
 
   p.enabled = false;
   p.type = Config::Program::Audio;
-
-  p.id = Dictionary::generateRandomDictionaryId();
 
   beginInsertRows( QModelIndex(), programs.size(), programs.size() );
   programs.push_back( p );
@@ -1324,129 +1274,6 @@ bool SoundDirsModel::setData( QModelIndex const & index, const QVariant & value,
   return false;
 }
 
-
-////////// HunspellDictsModel
-
-HunspellDictsModel::HunspellDictsModel( QWidget * parent,
-                                        Config::Hunspell const & hunspell ):
-  QAbstractItemModel( parent ), enabledDictionaries( hunspell.enabledDictionaries )
-{
-  changePath( hunspell.dictionariesPath );
-}
-
-void HunspellDictsModel::changePath( QString const & newPath )
-{
-  dataFiles = HunspellMorpho::findDataFiles( newPath );
-  beginResetModel();
-  endResetModel();
-}
-
-QModelIndex HunspellDictsModel::index( int row, int column, QModelIndex const & /*parent*/ ) const
-{
-  return createIndex( row, column );
-}
-
-QModelIndex HunspellDictsModel::parent( QModelIndex const & /*parent*/ ) const
-{
-  return QModelIndex();
-}
-
-Qt::ItemFlags HunspellDictsModel::flags( QModelIndex const & index ) const
-{
-  Qt::ItemFlags result = QAbstractItemModel::flags( index );
-
-  if ( index.isValid() )
-  {
-    if ( !index.column() )
-      result |= Qt::ItemIsUserCheckable;
-  }
-
-  return result;
-}
-
-int HunspellDictsModel::rowCount( QModelIndex const & parent ) const
-{
-  if ( parent.isValid() )
-    return 0;
-  else
-    return dataFiles.size();
-}
-
-int HunspellDictsModel::columnCount( QModelIndex const & parent ) const
-{
-  if ( parent.isValid() )
-    return 0;
-  else
-    return 2;
-}
-
-QVariant HunspellDictsModel::headerData( int section, Qt::Orientation /*orientation*/, int role ) const
-{
-  if ( role == Qt::DisplayRole )
-    switch( section )
-    {
-      case 0:
-        return tr( "Enabled" );
-      case 1:
-        return tr( "Name" );
-      default:
-        return QVariant();
-    }
-
-  return QVariant();
-}
-
-QVariant HunspellDictsModel::data( QModelIndex const & index, int role ) const
-{
-  if ( (unsigned)index.row() >= dataFiles.size() )
-    return QVariant();
-
-  if ( role == Qt::DisplayRole && index.column() == 1 )
-    return dataFiles[ index.row() ].dictName;
-
-  if ( role == Qt::CheckStateRole && !index.column() )
-  {
-    for( unsigned x = enabledDictionaries.size(); x--; )
-    {
-      if ( enabledDictionaries[ x ] == dataFiles[ index.row() ].dictId )
-        return Qt::Checked;
-    }
-
-    return Qt::Unchecked;
-  }
-
-  return QVariant();
-}
-
-bool HunspellDictsModel::setData( QModelIndex const & index, const QVariant & /*value*/,
-                               int role )
-{
-  if ( (unsigned)index.row() >= dataFiles.size() )
-    return false;
-
-  if ( role == Qt::CheckStateRole && !index.column() )
-  {
-    for( unsigned x = enabledDictionaries.size(); x--; )
-    {
-      if ( enabledDictionaries[ x ] == dataFiles[ index.row() ].dictId )
-      {
-        // Remove it now
-        enabledDictionaries.erase( enabledDictionaries.begin() + x );
-        dataChanged( index, index );
-        return true;
-      }
-    }
-
-    // Add it
-
-    enabledDictionaries.push_back( dataFiles[ index.row() ].dictId );
-
-    dataChanged( index, index );
-    return true;
-  }
-
-  return false;
-}
 
 void Sources::on_rescan_clicked()
 {
