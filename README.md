@@ -5,7 +5,7 @@ All-in-one offline dictionary - perfect for students, teachers and translators
 
 ### Windows
 
-1. download mingw [from here](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/4.8.2/threads-posix/dwarf/i686-4.8.2-release-posix-dwarf-rt_v3-rev3.7z/download
+1. download mingw [from here](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/4.8.2/threads-posix/dwarf/i686-4.8.2-release-posix-dwarf-rt_v3-rev3.7z/download)
 2. unpack `i686-4.8.2-release-posix-dwarf-rt_v3-rev3.7z` to `c:\mingw32`
 3. download qt [from here](https://download.qt.io/official_releases/qt/4.8/4.8.7/qt-opensource-windows-x86-mingw482-4.8.7.exe)
 4. run the `qt-opensource-windows-x86-mingw482-4.8.7.exe` installer and follow the instructions
