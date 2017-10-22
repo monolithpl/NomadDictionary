@@ -18,7 +18,10 @@ All-in-one offline dictionary - perfect for students, teachers and translators
 ### Mac
 1. download qt [from here](https://download.qt.io/archive/qt/4.8/4.8.4/qt-mac-opensource-4.8.4.dmg)
 2. run the `.pkg` installer and follow the instructions
-3. install homebrew - open the Terminal and run `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+3. install homebrew - open the Terminal and run:
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
 4. `git clone https://github.com/monolithpl/NomadDictionary`
 5. `cd NomadDictionary`
 6. `qmake -config release -spec macx-g++`
