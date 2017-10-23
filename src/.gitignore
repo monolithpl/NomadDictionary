@@ -9,25 +9,21 @@ debug/
 build/
 release/
 tmp/
-goldendict
+NomadDictionary
 winlibs/lib32-48/
 
 Makefile
 Makefile.Debug
 Makefile.Release
 
-goldendict.pro.user
-goldendict.pro.user.*
-object_script.goldendict.Debug
-object_script.goldendict.Release
+NomadDictionary.pro.user
+NomadDictionary.pro.user.*
+object_script.NomadDictionary.Debug
+object_script.NomadDictionary.Release
 
 version.txt
 
 .gitattributes
-
-/goldendict.app/
-/GoldenDict.app/
-*.dmg
 
 .DS_Store
 Info.plist
