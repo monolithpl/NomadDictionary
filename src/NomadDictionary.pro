@@ -199,7 +199,6 @@ mac {
     QMAKE_POST_LINK = mkdir -p NomadDictionary.app/Contents/Frameworks & \
                       cp -nR $${PWD}/maclibs/lib/ NomadDictionary.app/Contents/Frameworks/ & \
                       mkdir -p NomadDictionary.app/Contents/MacOS/locale & \
-                      cp -R locale/*.qm NomadDictionary.app/Contents/MacOS/locale/ & \
                       mkdir -p NomadDictionary.app/Contents/MacOS/help & \
                       cp -R $${PWD}/help/*.qch NomadDictionary.app/Contents/MacOS/help/
 

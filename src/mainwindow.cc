@@ -224,9 +224,6 @@ MainWindow::MainWindow( Config::Class & cfg_ ):
   navToolbar->addAction( ui.print );
   navToolbar->widgetForAction( ui.print )->setObjectName( "printButton" );
   
-  // scan popup
-  beforeScanPopupSeparator = navToolbar->addSeparator();
-  
   navToolbar->widgetForAction( navToolbar->addSeparator() )->setObjectName( "separatorBeforeSearchInPage" );
   
   navToolbar->addAction( ui.searchInPageAction );
