@@ -125,7 +125,7 @@ private:
   QToolBar * navToolbar;
   MainStatusBar * mainStatusBar;
   QAction * navBack, * navForward, * navPronounce, * enableScanPopup;
-  QAction * beforeScanPopupSeparator, * afterScanPopupSeparator, * beforeOptionsSeparator;
+  QAction * afterScanPopupSeparator, * beforeOptionsSeparator;
   QAction * zoomIn, * zoomOut, * zoomBase;
   QAction * wordsZoomIn, * wordsZoomOut, * wordsZoomBase;
   QAction * addToFavorites, * beforeAddToFavoritesSeparator;

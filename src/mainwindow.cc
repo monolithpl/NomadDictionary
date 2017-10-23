@@ -228,9 +228,6 @@ MainWindow::MainWindow( Config::Class & cfg_ ):
   
   navToolbar->addAction( ui.searchInPageAction );
   navToolbar->widgetForAction( ui.searchInPageAction )->setObjectName( "searchInPageActionButton" );
-  
-  beforeScanPopupSeparator->setVisible( cfg.preferences.enableScanPopup );
-  navToolbar->widgetForAction( beforeScanPopupSeparator )->setObjectName( "beforeScanPopupSeparator" );
 
   enableScanPopup = navToolbar->addAction( QIcon( ":/icons/wizard.png" ), tr( "Scan Popup" ) );
   enableScanPopup->setCheckable( true );
@@ -2050,10 +2047,6 @@ void MainWindow::editPreferences()
       ui.favoritesPaneWidget->setSaveInterval( p.favoritesStoreInterval );
 
     cfg.preferences = p;
-
-    beforeScanPopupSeparator->setVisible( cfg.preferences.enableScanPopup );
-    enableScanPopup->setVisible( cfg.preferences.enableScanPopup );
-    afterScanPopupSeparator->setVisible( cfg.preferences.enableScanPopup );
 
     if ( !cfg.preferences.enableScanPopup )
       enableScanPopup->setChecked( false );
