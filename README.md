@@ -18,8 +18,8 @@ All-in-one offline dictionary - perfect for students, teachers and translators
 
 ### Mac
 
-1. download qt [from here](https://download.qt.io/archive/qt/4.8/4.8.4/qt-mac-opensource-4.8.4.dmg)
-2. run the `.pkg` installer and follow the instructions
+1. download qt [from here](https://download.qt.io/official_releases/qt/4.8/4.8.7/qt-opensource-mac-4.8.7.dmg)
+2. run the `qt.mpkg` installer and follow the instructions
 3. install homebrew - open the Terminal and run:
 ```
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
